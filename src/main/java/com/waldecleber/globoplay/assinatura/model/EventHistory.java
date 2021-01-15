@@ -5,7 +5,7 @@ import java.time.OffsetDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "event_history", schema = "public")
+@Table(name = "event_history")
 public class EventHistory {
 
     @Id

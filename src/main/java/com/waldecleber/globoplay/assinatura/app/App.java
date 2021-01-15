@@ -1,13 +1,13 @@
-package com.waldecleber.globoplay.assinatura;
+package com.waldecleber.globoplay.assinatura.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AssinaturaGloboplayApplication {
+public class App {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AssinaturaGloboplayApplication.class, args);
+		SpringApplication.run(App.class, args);
 	}
 
 }
