@@ -1,25 +1,13 @@
-package com.waldecleber.globoplay.assinatura.model;
+package com.waldecleber.globoplay.subscription.dto;
 
-import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
-@Entity
-@Table(name = "subscription")
-public class Subscription {
+public class SubscriptionDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-
-    @ManyToOne
-    @JoinColumn(name="status_id")
-    private Status statusId;
-
-    @Column(name = "created_at")
+    private StatusDTO statusId;
     private OffsetDateTime createdAt;
-
-    @Column(name = "updated_at")
     private OffsetDateTime updatedAt;
 
     public String getId() {
@@ -30,11 +18,11 @@ public class Subscription {
         this.id = id;
     }
 
-    public Status getStatusId() {
+    public StatusDTO getStatusId() {
         return statusId;
     }
 
-    public void setStatusId(Status statusId) {
+    public void setStatusId(StatusDTO statusId) {
         this.statusId = statusId;
     }
 
@@ -58,7 +46,7 @@ public class Subscription {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Subscription that = (Subscription) o;
+        SubscriptionDTO that = (SubscriptionDTO) o;
         return Objects.equals(id, that.id)
                 && Objects.equals(statusId, that.statusId)
                 && Objects.equals(createdAt, that.createdAt)
@@ -76,7 +64,7 @@ public class Subscription {
 
     public static final class Builder {
         private String id;
-        private Status statusId;
+        private StatusDTO statusId;
         private OffsetDateTime createdAt;
         private OffsetDateTime updatedAt;
 
@@ -88,7 +76,7 @@ public class Subscription {
             return this;
         }
 
-        public Builder statusId(Status statusId) {
+        public Builder statusId(StatusDTO statusId) {
             this.statusId = statusId;
             return this;
         }
@@ -103,8 +91,8 @@ public class Subscription {
             return this;
         }
 
-        public Subscription build() {
-            Subscription subscription = new Subscription();
+        public SubscriptionDTO build() {
+            SubscriptionDTO subscription = new SubscriptionDTO();
             subscription.setId(id);
             subscription.setStatusId(statusId);
             subscription.setCreatedAt(createdAt);

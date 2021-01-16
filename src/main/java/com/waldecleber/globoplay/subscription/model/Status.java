@@ -1,4 +1,4 @@
-package com.waldecleber.globoplay.assinatura.model;
+package com.waldecleber.globoplay.subscription.model;
 
 import javax.persistence.*;
 import java.util.Objects;

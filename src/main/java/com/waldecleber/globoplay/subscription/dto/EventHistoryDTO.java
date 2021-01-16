@@ -1,24 +1,13 @@
-package com.waldecleber.globoplay.assinatura.model;
+package com.waldecleber.globoplay.subscription.dto;
 
-import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
-@Entity
-@Table(name = "event_history")
-public class EventHistory {
+public class EventHistoryDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private String type;
-
-    @ManyToOne
-    @JoinColumn(name = "subscription_id")
-    private Subscription subscriptionId;
-
-    @Column(name = "created_at")
+    private SubscriptionDTO subscriptionId;
     private OffsetDateTime createdAt;
 
     public Integer getId() {
@@ -37,11 +26,11 @@ public class EventHistory {
         this.type = type;
     }
 
-    public Subscription getSubscriptionId() {
+    public SubscriptionDTO getSubscriptionId() {
         return subscriptionId;
     }
 
-    public void setSubscriptionId(Subscription subscriptionId) {
+    public void setSubscriptionId(SubscriptionDTO subscriptionId) {
         this.subscriptionId = subscriptionId;
     }
 
@@ -57,7 +46,7 @@ public class EventHistory {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        EventHistory that = (EventHistory) o;
+        EventHistoryDTO that = (EventHistoryDTO) o;
         return Objects.equals(id, that.id)
                 && Objects.equals(type, that.type)
                 && Objects.equals(subscriptionId, that.subscriptionId)
@@ -76,7 +65,7 @@ public class EventHistory {
     public static final class Builder {
         private Integer id;
         private String type;
-        private Subscription subscriptionId;
+        private SubscriptionDTO subscriptionId;
         private OffsetDateTime createdAt;
 
         private Builder() {
@@ -92,7 +81,7 @@ public class EventHistory {
             return this;
         }
 
-        public Builder subscriptionId(Subscription subscriptionId) {
+        public Builder subscriptionId(SubscriptionDTO subscriptionId) {
             this.subscriptionId = subscriptionId;
             return this;
         }
@@ -102,8 +91,8 @@ public class EventHistory {
             return this;
         }
 
-        public EventHistory build() {
-            EventHistory eventHistory = new EventHistory();
+        public EventHistoryDTO build() {
+            EventHistoryDTO eventHistory = new EventHistoryDTO();
             eventHistory.setId(id);
             eventHistory.setType(type);
             eventHistory.setSubscriptionId(subscriptionId);
