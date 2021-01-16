@@ -1,4 +1,4 @@
-package com.waldecleber.globoplay.assinatura.config;
+package com.waldecleber.globoplay.subscription.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
