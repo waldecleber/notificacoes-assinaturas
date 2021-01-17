@@ -1,13 +1,23 @@
 package com.waldecleber.globoplay.subscription.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SubscriptionDTO {
 
     private String id;
+
+    @JsonProperty("status_id")
     private StatusDTO statusId;
+
+    @JsonProperty("created_at")
     private OffsetDateTime createdAt;
+
+    @JsonProperty("updated_at")
     private OffsetDateTime updatedAt;
 
     public String getId() {
