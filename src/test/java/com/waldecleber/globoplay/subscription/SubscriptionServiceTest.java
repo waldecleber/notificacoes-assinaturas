@@ -3,6 +3,7 @@ package com.waldecleber.globoplay.subscription;
 import com.waldecleber.globoplay.subscription.config.SubscriptionAMQPConfig;
 import com.waldecleber.globoplay.subscription.dto.StatusDTO;
 import com.waldecleber.globoplay.subscription.dto.SubscriptionDTO;
+import com.waldecleber.globoplay.subscription.exceptions.SubscriptionWithoutStatusException;
 import com.waldecleber.globoplay.subscription.model.Status;
 import com.waldecleber.globoplay.subscription.model.Subscription;
 import com.waldecleber.globoplay.subscription.repository.SubscriptionRepository;
@@ -55,6 +56,21 @@ public class SubscriptionServiceTest {
 		error.checkThat(subscriptionSaved.getCreatedAt().toLocalDate()
 				.isEqual(OffsetDateTime.now().toLocalDate()),
 				is(true));
+	}
+
+	@Test(expected = SubscriptionWithoutStatusException.class)
+	public void dont_save_subscription_without_status_exception() {
+		SubscriptionDTO subscriptionDTO = SubscriptionDTO.builder()
+				.id("5793cf6b3fd833521db8c420955e6f01")
+				.build();
+		Subscription subscription = Subscription.builder()
+				.id("5793cf6b3fd833521db8c420955e6f01")
+				.build();
+
+		when(repository.save(subscription)).thenReturn(subscription);
+		when(mapper.map(subscriptionDTO, Subscription.class)).thenReturn(subscription);
+
+		SubscriptionDTO subscriptionSaved = service.save(subscriptionDTO);
 	}
 
 	private SubscriptionDTO buildSubscriptionDTO() {
