@@ -1,7 +1,10 @@
 package com.waldecleber.globoplay.subscription.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Objects;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class StatusDTO {
 
     private Integer id;
