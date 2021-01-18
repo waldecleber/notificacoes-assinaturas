@@ -1,4 +1,4 @@
-package com.waldecleber.globoplay.subscription.consumer;
+package com.waldecleber.globoplay.subscription.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

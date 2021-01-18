@@ -1,11 +1,11 @@
 package com.waldecleber.globoplay.subscription;
 
-import com.waldecleber.globoplay.subscription.config.SubscriptionAMQPConfig;
 import com.waldecleber.globoplay.subscription.dto.StatusDTO;
 import com.waldecleber.globoplay.subscription.dto.SubscriptionDTO;
 import com.waldecleber.globoplay.subscription.exceptions.SubscriptionWithoutStatusException;
 import com.waldecleber.globoplay.subscription.model.Status;
 import com.waldecleber.globoplay.subscription.model.Subscription;
+import com.waldecleber.globoplay.subscription.repository.StatusRepository;
 import com.waldecleber.globoplay.subscription.repository.SubscriptionRepository;
 import com.waldecleber.globoplay.subscription.service.SubscriptionService;
 import org.junit.Before;
@@ -16,18 +16,17 @@ import org.modelmapper.ModelMapper;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import java.time.OffsetDateTime;
+import java.util.Optional;
 
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Mockito.*;
 
 
 public class SubscriptionServiceTest {
 
 	private SubscriptionRepository repository;
+	private StatusRepository statusRepository;
 	private ModelMapper mapper;
 	private RabbitTemplate rabbitTemplate;
 	private SubscriptionService service;
@@ -38,22 +37,26 @@ public class SubscriptionServiceTest {
 	@Before
 	public void setUp() {
 		this.repository = mock(SubscriptionRepository.class);
+		this.statusRepository = mock(StatusRepository.class);
 		this.mapper = mock(ModelMapper.class);
 		this.rabbitTemplate = mock(RabbitTemplate.class);
-		this.service = new SubscriptionService(repository, mapper, rabbitTemplate);
+		this.service = new SubscriptionService(repository, statusRepository, mapper, rabbitTemplate);
 	}
 
 	@Test
 	public void save_subscription_purchased_sucess() {
+		Status status = buildStatusEntity();
 		SubscriptionDTO subscriptionDTO = buildSubscriptionDTO();
 		Subscription subscription = buildSubscriptionEntity();
 
+		when(statusRepository.findByName(subscription.getStatus().getName())).thenReturn(Optional.of(status));
 		when(repository.save(subscription)).thenReturn(subscription);
 		when(mapper.map(subscriptionDTO, Subscription.class)).thenReturn(subscription);
 
-		SubscriptionDTO subscriptionSaved = service.save(subscriptionDTO);
+		subscription.onPrePersistOrPreUpdate();
+		service.save(subscriptionDTO);
 
-		error.checkThat(subscriptionSaved.getCreatedAt().toLocalDate()
+		error.checkThat(subscription.getCreatedAt().toLocalDate()
 				.isEqual(OffsetDateTime.now().toLocalDate()),
 				is(true));
 	}
@@ -70,7 +73,7 @@ public class SubscriptionServiceTest {
 		when(repository.save(subscription)).thenReturn(subscription);
 		when(mapper.map(subscriptionDTO, Subscription.class)).thenReturn(subscription);
 
-		SubscriptionDTO subscriptionSaved = service.save(subscriptionDTO);
+		service.save(subscriptionDTO);
 	}
 
 	private SubscriptionDTO buildSubscriptionDTO() {
