@@ -31,7 +31,7 @@ curl --location --request POST 'http://localhost:9003/subscriptions' \
         LOGGER.info(subscription.getId());
     }
 ```
-- [] Enfileirar notificaçoes para ser consumidas 
-- [] Persistir dados após enviar para fila
-- [] Criar Docker para conteinerizar aplicação
-- [] Automatizar processo de envio de notificacoes
+- [ ] Enfileirar notificaçoes para ser consumidas 
+- [ ] Persistir dados após enviar para fila
+- [ ] Criar Docker para conteinerizar aplicação
+- [ ] Automatizar processo de envio de notificacoes
