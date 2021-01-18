@@ -71,9 +71,12 @@ public class Subscription {
     }
 
     @PrePersist
-    @PreUpdate
-    public void onPrePersistOrPreUpdate() {
+    public void onPrePersist() {
         setCreatedAt(OffsetDateTime.now());
+    }
+
+    @PreUpdate
+    public void onPreUpdate() {
         setUpdatedAt(OffsetDateTime.now());
     }
 

@@ -25,6 +25,8 @@ import static org.mockito.Mockito.*;
 
 public class SubscriptionServiceTest {
 
+	public static final String SUBSCRIPTION_ID = "5793cf6b3fd833521db8c420955e6f01";
+	public static final String SUBSCRIPTION_PURCHASED = "SUBSCRIPTION_PURCHASED";
 	private SubscriptionRepository repository;
 	private StatusRepository statusRepository;
 	private ModelMapper mapper;
@@ -53,7 +55,7 @@ public class SubscriptionServiceTest {
 		when(repository.save(subscription)).thenReturn(subscription);
 		when(mapper.map(subscriptionDTO, Subscription.class)).thenReturn(subscription);
 
-		subscription.onPrePersistOrPreUpdate();
+		subscription.onPrePersist();
 		service.save(subscriptionDTO);
 
 		error.checkThat(subscription.getCreatedAt().toLocalDate()
@@ -64,10 +66,10 @@ public class SubscriptionServiceTest {
 	@Test(expected = SubscriptionWithoutStatusException.class)
 	public void dont_save_subscription_without_status_exception() {
 		SubscriptionDTO subscriptionDTO = SubscriptionDTO.builder()
-				.id("5793cf6b3fd833521db8c420955e6f01")
+				.id(SUBSCRIPTION_ID)
 				.build();
 		Subscription subscription = Subscription.builder()
-				.id("5793cf6b3fd833521db8c420955e6f01")
+				.id(SUBSCRIPTION_ID)
 				.build();
 
 		when(repository.save(subscription)).thenReturn(subscription);
@@ -79,28 +81,28 @@ public class SubscriptionServiceTest {
 	private SubscriptionDTO buildSubscriptionDTO() {
 		StatusDTO statusDTO = buildStatusDTO();
 		return SubscriptionDTO.builder()
-				.id("5793cf6b3fd833521db8c420955e6f01")
+				.id(SUBSCRIPTION_ID)
 				.statusId(statusDTO)
 				.build();
 	}
 
 	private StatusDTO buildStatusDTO() {
 		return StatusDTO.builder()
-				.name("SUBSCRIPTION_PURCHASED")
+				.name(SUBSCRIPTION_PURCHASED)
 				.build();
 	}
 
 	private Subscription buildSubscriptionEntity() {
 		Status status = buildStatusEntity();
 		return Subscription.builder()
-				.id("5793cf6b3fd833521db8c420955e6f01")
+				.id(SUBSCRIPTION_ID)
 				.statusId(status)
 				.build();
 	}
 
 	private Status buildStatusEntity() {
 		return Status.builder()
-				.name("SUBSCRIPTION_PURCHASED")
+				.name(SUBSCRIPTION_PURCHASED)
 				.build();
 	}
 
