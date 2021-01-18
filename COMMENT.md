@@ -1,6 +1,6 @@
-- Aplicação disponivel na porta 9003; (OK)
+- [x] Aplicação disponivel na porta 9003; (OK)
 
-- Testando o envio de uma subscription usando os parametros a seguir: (OK)
+- [x] Testando o envio de uma subscription usando os parametros a seguir: (OK)
 
 ```
 curl --location --request POST 'http://localhost:9003/subscriptions' \
@@ -14,9 +14,9 @@ curl --location --request POST 'http://localhost:9003/subscriptions' \
 ```
 
 
-- Persistindo os dados em MySQL (OK)
+- [x] Persistindo os dados em MySQL (OK)
 
-- Realizando auditoria na tabela EventHistory através de EntityListener usando: (OK)
+- [x] Realizando auditoria na tabela EventHistory através de EntityListener usando: (OK)
 
 ```
     @PrePersist
@@ -31,3 +31,7 @@ curl --location --request POST 'http://localhost:9003/subscriptions' \
         LOGGER.info(subscription.getId());
     }
 ```
+- [] Enfileirar notificaçoes para ser consumidas 
+- [] Persistir dados após enviar para fila
+- [] Criar Docker para conteinerizar aplicação
+- [] Automatizar processo de envio de notificacoes
