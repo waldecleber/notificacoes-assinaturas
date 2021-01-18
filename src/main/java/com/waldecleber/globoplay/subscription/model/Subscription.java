@@ -6,6 +6,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "subscription")
+@EntityListeners(AuditListener.class)
 public class Subscription {
 
     @Id
@@ -13,7 +14,7 @@ public class Subscription {
 
     @ManyToOne
     @JoinColumn(name="status_id")
-    private Status statusId;
+    private Status status;
 
     @Column(name = "created_at")
     private OffsetDateTime createdAt;
@@ -29,12 +30,12 @@ public class Subscription {
         this.id = id;
     }
 
-    public Status getStatusId() {
-        return statusId;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setStatusId(Status statusId) {
-        this.statusId = statusId;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public OffsetDateTime getCreatedAt() {
@@ -59,14 +60,21 @@ public class Subscription {
         if (o == null || getClass() != o.getClass()) return false;
         Subscription that = (Subscription) o;
         return Objects.equals(id, that.id)
-                && Objects.equals(statusId, that.statusId)
+                && Objects.equals(status, that.status)
                 && Objects.equals(createdAt, that.createdAt)
                 && Objects.equals(updatedAt, that.updatedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, statusId, createdAt, updatedAt);
+        return Objects.hash(id, status, createdAt, updatedAt);
+    }
+
+    @PrePersist
+    @PreUpdate
+    public void onPrePersistOrPreUpdate() {
+        setCreatedAt(OffsetDateTime.now());
+        setUpdatedAt(OffsetDateTime.now());
     }
 
     public static Builder builder() {
@@ -75,7 +83,7 @@ public class Subscription {
 
     public static final class Builder {
         private String id;
-        private Status statusId;
+        private Status status;
         private OffsetDateTime createdAt;
         private OffsetDateTime updatedAt;
 
@@ -88,7 +96,7 @@ public class Subscription {
         }
 
         public Builder statusId(Status statusId) {
-            this.statusId = statusId;
+            this.status = statusId;
             return this;
         }
 
@@ -105,7 +113,7 @@ public class Subscription {
         public Subscription build() {
             Subscription subscription = new Subscription();
             subscription.setId(id);
-            subscription.setStatusId(statusId);
+            subscription.setStatus(status);
             subscription.setCreatedAt(createdAt);
             subscription.setUpdatedAt(updatedAt);
             return subscription;
