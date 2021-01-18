@@ -1,5 +1,8 @@
 package com.waldecleber.globoplay.subscription.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.Objects;
@@ -7,6 +10,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "event_history")
 public class EventHistory {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EventHistory.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

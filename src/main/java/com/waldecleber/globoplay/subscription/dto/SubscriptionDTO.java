@@ -12,7 +12,7 @@ public class SubscriptionDTO {
     private String id;
 
     @JsonProperty("status_id")
-    private StatusDTO statusId;
+    private StatusDTO status;
 
     @JsonProperty("created_at")
     private OffsetDateTime createdAt;
@@ -28,12 +28,12 @@ public class SubscriptionDTO {
         this.id = id;
     }
 
-    public StatusDTO getStatusId() {
-        return statusId;
+    public StatusDTO getStatus() {
+        return status;
     }
 
-    public void setStatusId(StatusDTO statusId) {
-        this.statusId = statusId;
+    public void setStatus(StatusDTO status) {
+        this.status = status;
     }
 
     public OffsetDateTime getCreatedAt() {
@@ -58,14 +58,14 @@ public class SubscriptionDTO {
         if (o == null || getClass() != o.getClass()) return false;
         SubscriptionDTO that = (SubscriptionDTO) o;
         return Objects.equals(id, that.id)
-                && Objects.equals(statusId, that.statusId)
+                && Objects.equals(status, that.status)
                 && Objects.equals(createdAt, that.createdAt)
                 && Objects.equals(updatedAt, that.updatedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, statusId, createdAt, updatedAt);
+        return Objects.hash(id, status, createdAt, updatedAt);
     }
 
     public static Builder builder() {
@@ -74,7 +74,7 @@ public class SubscriptionDTO {
 
     public static final class Builder {
         private String id;
-        private StatusDTO statusId;
+        private StatusDTO status;
         private OffsetDateTime createdAt;
         private OffsetDateTime updatedAt;
 
@@ -87,7 +87,7 @@ public class SubscriptionDTO {
         }
 
         public Builder statusId(StatusDTO statusId) {
-            this.statusId = statusId;
+            this.status = statusId;
             return this;
         }
 
@@ -104,7 +104,7 @@ public class SubscriptionDTO {
         public SubscriptionDTO build() {
             SubscriptionDTO subscription = new SubscriptionDTO();
             subscription.setId(id);
-            subscription.setStatusId(statusId);
+            subscription.setStatus(status);
             subscription.setCreatedAt(createdAt);
             subscription.setUpdatedAt(updatedAt);
             return subscription;
