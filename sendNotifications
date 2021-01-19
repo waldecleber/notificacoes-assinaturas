@@ -1,0 +1,22 @@
+#!/bin/bash
+_input="notificacoes.txt"
+
+while IFS=',' read -r notification_type subscription || [[ -n "$notification_type" ]]; do
+
+  if [ "$notification_type" != "" ]; then
+    IFS=' : ' read key value <<< $notification_type
+    status_id=$value
+    status_id="${status_id%\'}"
+    status_id="${status_id#\'}"
+
+    IFS=' : ' read key value <<< $subscription
+    id=${value//\}/""""}
+    id="${id%\'}"
+    id="${id#\'}"
+
+    curl -X POST -H "Content-Type: application/json" -d \
+      '{"id":"'$id'", "status_id": {"name": "'$status_id'"}}' "http://localhost:9003/subscriptions"; \
+
+  fi
+
+done < "$_input"

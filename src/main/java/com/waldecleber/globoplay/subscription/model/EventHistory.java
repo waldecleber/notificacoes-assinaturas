@@ -2,13 +2,16 @@ package com.waldecleber.globoplay.subscription.model;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 @Table(name = "event_history")
+@EntityListeners(AuditingEntityListener.class)
 public class EventHistory {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventHistory.class);
@@ -17,14 +20,16 @@ public class EventHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
     @ManyToOne
     @JoinColumn(name = "subscription_id")
     private Subscription subscriptionId;
 
+    @CreatedDate
     @Column(name = "created_at")
-    private OffsetDateTime createdAt;
+    private LocalDateTime createdAt;
 
     public Integer getId() {
         return id;
@@ -34,11 +39,11 @@ public class EventHistory {
         this.id = id;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
@@ -50,11 +55,11 @@ public class EventHistory {
         this.subscriptionId = subscriptionId;
     }
 
-    public OffsetDateTime getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(OffsetDateTime createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -80,9 +85,9 @@ public class EventHistory {
 
     public static final class Builder {
         private Integer id;
-        private String type;
+        private Type type;
         private Subscription subscriptionId;
-        private OffsetDateTime createdAt;
+        private LocalDateTime createdAt;
 
         private Builder() {
         }
@@ -92,7 +97,7 @@ public class EventHistory {
             return this;
         }
 
-        public Builder type(String type) {
+        public Builder type(Type type) {
             this.type = type;
             return this;
         }
@@ -102,7 +107,7 @@ public class EventHistory {
             return this;
         }
 
-        public Builder createdAt(OffsetDateTime createdAt) {
+        public Builder createdAt(LocalDateTime createdAt) {
             this.createdAt = createdAt;
             return this;
         }

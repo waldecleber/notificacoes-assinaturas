@@ -1,12 +1,15 @@
 package com.waldecleber.globoplay.subscription.model;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import javax.persistence.*;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 @Table(name = "subscription")
-@EntityListeners(AuditListener.class)
+@EntityListeners(AuditSubscriptionListener.class)
 public class Subscription {
 
     @Id
@@ -16,11 +19,13 @@ public class Subscription {
     @JoinColumn(name="status_id")
     private Status status;
 
+    @CreatedDate
     @Column(name = "created_at")
-    private OffsetDateTime createdAt;
+    private LocalDateTime createdAt;
 
+    @LastModifiedDate
     @Column(name = "updated_at")
-    private OffsetDateTime updatedAt;
+    private LocalDateTime updatedAt;
 
     public String getId() {
         return id;
@@ -38,19 +43,19 @@ public class Subscription {
         this.status = status;
     }
 
-    public OffsetDateTime getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(OffsetDateTime createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public OffsetDateTime getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(OffsetDateTime updatedAt) {
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -71,10 +76,8 @@ public class Subscription {
     }
 
     @PrePersist
-    @PreUpdate
-    public void onPrePersistOrPreUpdate() {
-        setCreatedAt(OffsetDateTime.now());
-        setUpdatedAt(OffsetDateTime.now());
+    public void onPrePersist() {
+        setCreatedAt(LocalDateTime.now());
     }
 
     public static Builder builder() {
@@ -84,8 +87,8 @@ public class Subscription {
     public static final class Builder {
         private String id;
         private Status status;
-        private OffsetDateTime createdAt;
-        private OffsetDateTime updatedAt;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
 
         private Builder() {
         }
@@ -100,12 +103,12 @@ public class Subscription {
             return this;
         }
 
-        public Builder createdAt(OffsetDateTime createdAt) {
+        public Builder createdAt(LocalDateTime createdAt) {
             this.createdAt = createdAt;
             return this;
         }
 
-        public Builder updatedAt(OffsetDateTime updatedAt) {
+        public Builder updatedAt(LocalDateTime updatedAt) {
             this.updatedAt = updatedAt;
             return this;
         }
