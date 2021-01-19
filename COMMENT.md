@@ -31,7 +31,13 @@ curl --location --request POST 'http://localhost:9003/subscriptions' \
         LOGGER.info(subscription.getId());
     }
 ```
-- [ ] Enfileirar notificaçoes para ser consumidas 
-- [ ] Persistir dados após enviar para fila
-- [ ] Criar Docker para conteinerizar aplicação
-- [ ] Automatizar processo de envio de notificacoes
+- [x] Enfileirar notificaçoes para ser consumidas 
+    
+- [x] Persistir dados após enviar para fila
+    - Enviar dados para a fila do RabbitMQ 
+    - Foi criado Auditoria através do uso de AuditListener
+    
+- [x] Criar Docker para conteinerizar aplicação
+    - Usando docker-compose
+- [x] Automatizar processo de envio de notificacoes
+    - Shell Script sendNotifications
