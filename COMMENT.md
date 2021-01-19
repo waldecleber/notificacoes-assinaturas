@@ -102,6 +102,13 @@ curl --location --request POST 'http://localhost:9003/subscriptions' \
     }
 }'
 ```
+<img src="postman.png" width="930" height="580">
+
+Antes de executar o ./sendNotifications
+<img src="event_history_empty.png" width="1024" height="500">
+
+Após a execução do script
+<img src="event_history_saved.png" width="1024" height="700">
 
 ### Flyway
 O Flyway foi utilizado para construir as tabelas e realizar o versionamento das mesmas.
