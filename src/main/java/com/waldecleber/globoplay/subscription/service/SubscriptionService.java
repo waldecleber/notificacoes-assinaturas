@@ -14,9 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
-import java.time.OffsetDateTime;
 import java.util.Optional;
 
 @Service
@@ -45,7 +43,7 @@ public class SubscriptionService {
         if (Optional.ofNullable(dto.getStatus()).isPresent()) {
             Subscription subscription = mapper.map(dto, Subscription.class);
             subscription.setStatus(loadStatus(dto.getStatus()));
-            repository.save(subscription);
+            repository.saveAndFlush(subscription);
 
             LOGGER.info(String.format(SUBSCRIPTION_SAVED, subscription.getId()));
             return dto;
@@ -61,13 +59,8 @@ public class SubscriptionService {
     }
 
     public void sendSubscriptionToRabbit(SubscriptionDTO dto) {
-        if (Optional.ofNullable(dto.getStatus()).isPresent()) {
-            LOGGER.info(String.format(SEND_A_SUBSCRIPTION_TO_QUEUE, dto.getId()));
-            rabbitTemplate.convertAndSend(SubscriptionAMQPConfig.EXCHANGE_NAME, "", dto);
-        } else {
-            LOGGER.error(CANNOT_SAVE_A_SUBSCRIPTION_WITHOUT_STATUS);
-            throw new SubscriptionWithoutStatusException(CANNOT_SAVE_A_SUBSCRIPTION_WITHOUT_STATUS);
-        }
+        LOGGER.info(String.format(SEND_A_SUBSCRIPTION_TO_QUEUE, dto.getId()));
+        rabbitTemplate.convertAndSend(SubscriptionAMQPConfig.EXCHANGE_NAME, "", dto);
     }
 
 }

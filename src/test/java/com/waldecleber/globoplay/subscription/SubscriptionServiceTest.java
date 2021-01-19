@@ -13,11 +13,15 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.internal.bytebuddy.implementation.bytecode.constant.IntegerConstant;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Matchers.any;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.*;
@@ -58,8 +62,7 @@ public class SubscriptionServiceTest {
 		subscription.onPrePersist();
 		service.save(subscriptionDTO);
 
-		error.checkThat(subscription.getCreatedAt().toLocalDate()
-				.isEqual(OffsetDateTime.now().toLocalDate()),
+		error.checkThat(subscription.getCreatedAt().toLocalDate().isEqual(LocalDate.now()),
 				is(true));
 	}
 
